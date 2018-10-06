@@ -1,0 +1,5 @@
+/* Put your css in here */
+
+input:required.ng-touched {
+  box-shadow: 4px 4px 20px rgba(200, 0, 0, 0.85);
+}

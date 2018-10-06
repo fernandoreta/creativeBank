@@ -1,0 +1,116 @@
+<!-- Welcome to creative Bank created by Fernando Wertt -->
+
+<!DOCTYPE html>
+<html ng-app="mybank">
+    <head>
+      <script src="alert.js"></script>
+      <!-- DATE -->
+        <script Language="JavaScript">
+            function setHour() {
+              var hour = new Date()
+              var hrs = hour.getHours();
+              var min = hour.getMinutes();
+              var hoy = new Date();
+              var m = new Array();
+              var d = new Array()
+              var an= hoy.getYear();
+              m[0]="Jan";  m[1]="febreaury";  m[2]="March";
+              m[3]="April";   m[4]="May";  m[5]="Jun";
+              m[6]="July";    m[7]="August";   m[8]="September";
+              m[9]="Ocotober";   m[10]="November"; m[11]="December";
+              document.write("Time is: "+hrs+":"+min+" (");
+              document.write(hoy.getDate());
+              document.write(" of ");
+              document.write(m[hoy.getMonth()]);
+              document.write(")");
+            }
+          </script>
+      <!-- DATE -->
+        <script data-require="angular.js@1.4.x" src="https://code.angularjs.org/1.4.0-rc.2/angular.js" data-semver="1.4.0-rc.2"></script>
+        <script data-require="jquery@2.1.3" data-semver="2.1.3" src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+        <script src="app.js"></script>
+        <title>Bank transactions</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="style.css">
+      </head>
+
+<body ng-controller="MainCtrl">
+  <div class="container">
+    <h1 class="h1">$ CreactiveBank $</h1><script>setHour()</script>
+    <hr />
+     <h4 class="alert alert-default" ng-bind-template="Hello {{account.name}} your balance is: 
+     {{account.runningBalance | currency}}" warning="account.runningBalance" 
+     data-startbalance="{{account.startingBalace}}"></h4>
+    
+    <div class="row">
+      <div class="col-md-12">
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Make a transaction</h3>
+          </div>
+          <div class="panel-body">
+            <form class="form-inline">
+              <div class="form-group">
+                <label for="description">Description</label>
+                <input #description type="text" class="form-control" id="description" 
+                placeholder="Please fill" ng-model='transaction.description' required>
+              </div>
+              <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon">$</span>
+                  <input type="number" step="0.01" min=0 class="form-control" id="amount" 
+                  placeholder="0.00" ng-model="transaction.amount">
+                </div>
+              </div>
+              <select class="form-control" ng-model="transaction.type">
+                <option value='spend'>Spend</option>
+                <option value='deposit'>Deposit</option>
+              </select>
+              <button type="submit" class="btn btn-success" 
+              ng-click="saveTransaction()">SUBMIT</button>
+            </form>
+          </div>
+        </div>
+        <hr />
+        <strong>Search your move in time: </strong>
+        <input type="search" class="form form-control" placeholder="Search" ng-model="searchText">
+        <hr />
+        <p>
+          <strong>Sort Transactions by:</strong>
+          <select ng-model="transType" class="form-control">
+            <option value=''>All</option>
+            <option value='deposit'>Deposit</option>
+            <option value='spend'>Spend</option>
+          </select>
+        </p>
+        <table class="table table-striped table-bordered table-condensed">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Description</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="row in transactionList | filter: transType | filter: searchText ">
+              <td ng-bind="account.name"></td>
+              <td ng-bind="row.type"></td>
+              <td ng-bind="row.description"></td>
+              <td ng-bind="row.amount | currency"></td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <hr />
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
